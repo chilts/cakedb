@@ -46,7 +46,7 @@ const delSql = `
   ;
 `
 
-export default class CakeDB {
+export default class PieDB {
   constructor(db) {
     // always turn this on
     db.pragma('journal_mode = WAL')

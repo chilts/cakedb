@@ -1,10 +1,10 @@
 {
-  "name": "cakedb",
-  "title": "ALL PACKAGES NEED A TITLE!",
+  "name": "pie-db",
+  "title": "Pie DB",
   "description": "A key/value store that uses Sqlite3. Has more than other kv stores.",
   "version": "0.1.0",
   "type": "module",
-  "main": "cakedb.js",
+  "main": "pie-db.js",
   "scripts": {
     "test": "tape test/*.js"
   },
