@@ -1,0 +1,17 @@
+{
+  "name": "cakedb",
+  "title": "ALL PACKAGES NEED A TITLE!",
+  "description": "A key/value store that uses Sqlite3. Has more than other kv stores.",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "cakedb.js",
+  "scripts": {
+    "test": "tape test/*.js"
+  },
+  "devDependencies": {
+    "better-sqlite3": "^8.0.1",
+    "tape": "^5.6.1"
+  },
+  "author": "Andrew Chilton <andychilton@gmail.com>",
+  "license": "UNLICENSED"
+}
