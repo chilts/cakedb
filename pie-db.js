@@ -36,6 +36,20 @@ const getSql = `
   ;
 `
 
+const patchSql = `
+  UPDATE
+    kv
+  SET
+    v = json_patch(v, @p),
+    updates = updates + 1,
+    updated = @ts
+  WHERE
+    ns = @ns
+  AND
+    k = @k
+  ;
+`
+
 const delSql = `
   DELETE FROM
     kv
@@ -64,11 +78,11 @@ export default class PieDB {
     // prepare some statements
     this.putStmt = db.prepare(putSql)
     this.getStmt = db.prepare(getSql)
+    this.patchStmt = db.prepare(patchSql)
     this.delStmt = db.prepare(delSql)
     this.allStmt = db.prepare(allSql)
   }
 
-  // must provide all three (even if `ns=""`)
   put(ns, k, v) {
     // console.log({ ns, k, v })
     if ( arguments.length === 2 ) {
@@ -103,7 +117,27 @@ export default class PieDB {
       ns = ''
     }
     const res = this.getStmt.get({ ns, k })
+    // console.log('res:', res)
     return { ...res, v: JSON.parse(res.v) }
+  }
+
+  patchJson(ns, k, p) {
+    if ( arguments.length === 2 ) {
+      p = k
+      k = ns
+      ns = ''
+    }
+    const ts = (new Date()).toISOString()
+    const params = {
+      ns,
+      k,
+      p: JSON.stringify(p),
+      ts,
+    }
+    // console.log('params:', params)
+    const res = this.patchStmt.run(params)
+    // console.log('res:', res)
+    return res.changes
   }
 
   del(ns, k) {

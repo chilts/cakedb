@@ -81,3 +81,21 @@ test('put and del (ns)', t => {
 
   t.end()
 })
+
+test('get a non-existing key (no ns)', t => {
+  t.plan(1)
+
+  const item = pdb.get('nothing')
+  t.equal(item, undefined)
+
+  t.end()
+})
+
+test('get a non-existing key (ns)', t => {
+  t.plan(1)
+
+  const item = pdb.get('t', 'nothing')
+  t.equal(item, undefined)
+
+  t.end()
+})

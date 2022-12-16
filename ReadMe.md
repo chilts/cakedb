@@ -1,6 +1,9 @@
 # Pie DB
 
-A key/value store that uses Sqlite3. Has more than other kv stores.
+A key/value store that uses Sqlite3. Has more than other kv stores. Why?
+Because we utilise lots of stuff that Sqlite3 gives us.
+
+A few examples are `.json_patch()` which we use in `.patchJson()`.
 
 ## Synopsis
 
@@ -62,8 +65,8 @@ In each item returned, there is more than just `ns`, `k`, and `v`.
 e.g. put an email address, get more stuff back
 
 ```
-pdb.put('user', 'chilts', 'andychilton@gmail.com')
-const user = pdg.get('user', 'chilts')
+pdb.put('user', 'andy', 'andy@example.com')
+const user = pdg.get('user', 'andy')
 console.log(user:', user)
 
 // user: {
@@ -95,9 +98,46 @@ const { v: user } = pdg.get('user', 'andy')
 * .putJson(ns, k, v)
 * .get(ns, k)
 * .getJson(ns, k)
+* .patchJson(ns, k, p) // Note: no `.patch()` method since JSON specific
 * .del(ns, k)
 * .all(ns)
 * .allJson(ns)
 * .iterate(ns) // Note: no `.iterateJson(ns)` method
+
+### `.patchJson(ns, k, p)`
+
+Allows easy use of `json_patch()` inside Sqlite3
+(https://www.sqlite.org/json1.html#jpatch). This makes it simple to update a
+part of a JSON value without having to read it out and write it back.
+
+e.g. update a user's email address:
+
+```
+// When the user signs up, add the user.
+const user = {
+  title: "Andrew Chilton",
+  email: "andy@yahoo.com",
+}
+pdb.putJson('user', 'andy', user)
+
+// At some stage later they update their email address, but no need to
+// `.getJson()` first.
+pdb.patchJson('user', 'andy', { "email": "andy@gmail.com" })
+
+// if we retrieve the user we can see title is the same but email has changed
+const user = pdb.getJson('user', 'andy')
+console.log('user:', user)
+// user: {
+//    ns: "user',
+//    k: 'andy',
+//    v: {
+//      title: "Andrew Chilton",
+//      email: "andy@gmail.com",
+//    },
+//    updates: 2,
+//    inserted: ...,
+//    updated: ...,
+// }
+```
 
 (Ends)
