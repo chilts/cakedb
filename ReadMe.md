@@ -2,7 +2,7 @@
 
 A key/value store that uses Sqlite3. Has more than other kv stores.
 
-## Snyopsis
+## Synopsis
 
 ```
 // npm
@@ -15,7 +15,7 @@ const pdb = new PieDB(db)
 
 // Now you can put, get, and del.
 // * namespace = 'user'
-// * key' = 'andy'
+// * key = 'andy'
 // * value = 'andy@example.com'
 pdb.put('user', 'andy', 'andy@example.com')
 
@@ -40,20 +40,26 @@ In the case of the `.*Json()` methods you can pass an object (or indeed
 anything that `JSON.stringify()` can serialise) and it'll be encoded inside
 `.putJson()` and decoded inside `.getJson()` automatically.
 
-Whilst this is also the same using `.allJson()` instead of `.all()`, there is
+Whilst this also happens when using `.allJson()` instead of `.all()`, there is
 no JSON equivalent for `.iterate()` so you'll have to `JSON.parse(item.v)`
-yourself.
+yourself if required.
 
 If you actually want the JSON from a previous `.putJson()` you can always use
-the non-JSON methods, since the value is just a string.
+the non-JSON methods such as `.get()`, since the value `v` is just a string
+anyway.
 
-## Attributes
+## Attributes Added on each Row
 
-You'll notice that after a `.put()` then `.get()`, the returned object actually
-contains various other fields. You'll generally just want the `.v` which was
-the value to gave to the `.put()` but sometimes the other fields help.
+In each item returned, there is more than just `ns`, `k`, and `v`.
 
-e.g.
+* `ns` = namespace
+* `k` = key
+* `v` = value
+* `updates` = a count of the number of updates to this `ns` + `k`
+* `inserted` = a string of the date of inserted, i.e. `(new Date()).toISOString()`
+* `updated` = a string of the date of last update (similar to above)
+
+e.g. put an email address, get more stuff back
 
 ```
 pdb.put('user', 'chilts', 'andychilton@gmail.com')
@@ -70,14 +76,14 @@ console.log(user:', user)
 // }
 ```
 
-If you want all of these fields, you could destructure the row:
+If you want all of these fields, you could destructure the item:
 
 ```
-const { ns, k, v, updates, inserted, updated } = row
+const { ns, k, v, updates, inserted, updated } = user
 ```
 
 Alternatively, you may just want the `v`, so feel free to do something like
-this:
+this which is nicely succinct:
 
 ```
 const { v: user } = pdg.get('user', 'andy')
