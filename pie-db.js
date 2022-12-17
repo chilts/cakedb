@@ -50,6 +50,20 @@ const patchSql = `
   ;
 `
 
+const modSql = `
+  UPDATE
+    kv
+  SET
+    v = json_set(v, @path, json(@mod)),
+    updates = updates + 1,
+    updated = @ts
+  WHERE
+    ns = @ns
+  AND
+    k = @k
+  ;
+`
+
 const delSql = `
   DELETE FROM
     kv
@@ -73,12 +87,15 @@ export default class PieDB {
     this.db = db
 
     // create the table
+    // console.log('Creating kv table ...')
     db.exec(createTableSql)
+    // console.log('Done')
 
     // prepare some statements
     this.putStmt = db.prepare(putSql)
     this.getStmt = db.prepare(getSql)
     this.patchStmt = db.prepare(patchSql)
+    this.modStmt = db.prepare(modSql)
     this.delStmt = db.prepare(delSql)
     this.allStmt = db.prepare(allSql)
   }
@@ -117,7 +134,11 @@ export default class PieDB {
       ns = ''
     }
     const res = this.getStmt.get({ ns, k })
+    // console.log('typeof res:', typeof res)
     // console.log('res:', res)
+    if ( typeof res === 'undefined' ) {
+      return
+    }
     return { ...res, v: JSON.parse(res.v) }
   }
 
@@ -136,6 +157,27 @@ export default class PieDB {
     }
     // console.log('params:', params)
     const res = this.patchStmt.run(params)
+    // console.log('res:', res)
+    return res.changes
+  }
+
+  modJson(ns, k, path, mod) {
+    if ( arguments.length === 3 ) {
+      mod = path
+      path = k
+      k = ns
+      ns = ''
+    }
+    const ts = (new Date()).toISOString()
+    const params = {
+      ns,
+      k,
+      path,
+      mod: JSON.stringify(mod),
+      ts,
+    }
+    // console.log('params:', params)
+    const res = this.modStmt.run(params)
     // console.log('res:', res)
     return res.changes
   }
