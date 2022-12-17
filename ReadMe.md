@@ -142,7 +142,8 @@ console.log('user:', user)
 
 ## Changelog
 
-* v0.4.0 - 20221216 - Added the .patchJson() method, which is awesome
+* v0.5.0 - 20221217 - Added the .modJson() method, which is also awesome (uses Sqlite's `json_set()`)
+* v0.4.0 - 20221216 - Added the .patchJson() method, which is awesome (uses Sqlite's `json_patch()`)
 * v0.3.2 - 20221216 - Fixed some typos in the ReadMe.md
 * v0.3.1 - 20221216 - Updated docs
 * v0.3.0 - 20221216 - Added optional namespaces, JSON methods, all() and iterate()
