@@ -16,7 +16,7 @@ process.on('exit', () => {
 // Pie DB
 const pdb = new PieDB(db)
 
-test('.putJson() and .patchJson()', t => {
+test('20 - .putJson() and .patchJson()', t => {
   t.plan(3)
 
   const user = {
@@ -52,7 +52,7 @@ test('.putJson() and .patchJson()', t => {
   t.end()
 })
 
-test('.patchJson() to an unknown key', t => {
+test('20 - .patchJson() to an unknown key', t => {
   t.plan(1)
 
   // update the email address

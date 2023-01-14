@@ -40,7 +40,7 @@ const patchSql = `
   UPDATE
     kv
   SET
-    v = json_patch(v, @p),
+    v = json_patch(v, @patch),
     updates = updates + 1,
     updated = @ts
   WHERE
@@ -142,9 +142,9 @@ export default class PieDB {
     return { ...res, v: JSON.parse(res.v) }
   }
 
-  patchJson(ns, k, p) {
+  patchJson(ns, k, patch) {
     if ( arguments.length === 2 ) {
-      p = k
+      patch = k
       k = ns
       ns = ''
     }
@@ -152,7 +152,7 @@ export default class PieDB {
     const params = {
       ns,
       k,
-      p: JSON.stringify(p),
+      patch: JSON.stringify(patch),
       ts,
     }
     // console.log('params:', params)

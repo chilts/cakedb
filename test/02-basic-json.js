@@ -16,7 +16,7 @@ process.on('exit', () => {
 // Pie DB
 const pdb = new PieDB(db)
 
-test('put and set (empty ns)', t => {
+test('02 - put and set (empty ns)', t => {
   t.plan(2)
 
   const r1 = pdb.putJson('user', 'jack', { name: 'Jack Sparrow' })

@@ -44,7 +44,7 @@ process.on('exit', () => {
 // Pie DB
 const pdb = new PieDB(db)
 
-test('multiple .put()', t => {
+test('10 - multiple .put()', t => {
   t.plan(1)
 
   pdb.putJson('user', 'rita', { email: 'rita@example.io' })
@@ -56,7 +56,7 @@ test('multiple .put()', t => {
   t.end()
 })
 
-test('.all()', t => {
+test('10 - .all()', t => {
   t.plan(1)
 
   const users = pdb.allJson('user')
@@ -71,7 +71,7 @@ test('.all()', t => {
 })
 
 
-test('.all()', t => {
+test('10 - .all()', t => {
   t.plan(expUsers.length)
 
   let i = 0

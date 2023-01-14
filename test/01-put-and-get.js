@@ -16,7 +16,7 @@ process.on('exit', () => {
 // Pie DB
 const pdb = new PieDB(db)
 
-test('put and set (empty ns)', t => {
+test('01 - put and set (empty ns)', t => {
   t.plan(9)
 
   const r1 = pdb.put('', 't', 'one')
@@ -37,7 +37,7 @@ test('put and set (empty ns)', t => {
   t.end()
 })
 
-test('put and del (empty ns)', t => {
+test('01 - put and del (empty ns)', t => {
   t.plan(2)
 
   const r1 = pdb.put('', 't', 'two')
@@ -49,7 +49,7 @@ test('put and del (empty ns)', t => {
   t.end()
 })
 
-test('put and set (ns)', t => {
+test('01 - put and set (ns)', t => {
   t.plan(9)
 
   const r1 = pdb.put('t', 'one')
@@ -70,7 +70,7 @@ test('put and set (ns)', t => {
   t.end()
 })
 
-test('put and del (ns)', t => {
+test('01 - put and del (ns)', t => {
   t.plan(2)
 
   const r1 = pdb.put('t', 'two')
@@ -82,7 +82,7 @@ test('put and del (ns)', t => {
   t.end()
 })
 
-test('get a non-existing key (no ns)', t => {
+test('01 - get a non-existing key (no ns)', t => {
   t.plan(1)
 
   const item = pdb.get('nothing')
@@ -91,7 +91,7 @@ test('get a non-existing key (no ns)', t => {
   t.end()
 })
 
-test('get a non-existing key (ns)', t => {
+test('01 - get a non-existing key (ns)', t => {
   t.plan(1)
 
   const item = pdb.get('t', 'nothing')
