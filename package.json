@@ -2,7 +2,7 @@
   "name": "pie-db",
   "title": "Pie DB",
   "description": "A key/value store that uses Sqlite3. Has more than other kv stores.",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "type": "module",
   "main": "pie-db.js",
   "scripts": {
