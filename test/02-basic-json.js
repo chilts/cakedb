@@ -20,7 +20,7 @@ test('02 - put and set (empty ns)', t => {
   t.plan(2)
 
   const r1 = pdb.putJson('user', 'jack', { name: 'Jack Sparrow' })
-  t.equal(r1, undefined, '.put() worked')
+  t.equal(r1, 1, '.put() worked')
 
   const user = pdb.getJson('user', 'jack')
   delete user.inserted

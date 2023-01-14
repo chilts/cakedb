@@ -25,7 +25,7 @@ test('30 - .putJson() and .modJson()', t => {
     logins: 1,
   }
   const r1 = pdb.putJson('user', 'andy', user)
-  t.equal(r1, undefined, '.putJson() ok')
+  t.equal(r1, 1, '.putJson() ok')
 
   // update the email address
   const modUser = {
@@ -70,7 +70,7 @@ test('30 - .putJson() and .modJson() of an array', t => {
   t.plan(5)
 
   const r1 = pdb.putJson('list', [])
-  t.equal(r1, undefined, '.putJson() ok')
+  t.equal(r1, 1, '.putJson() ok')
 
   // add a new item
   const modUser1 = {

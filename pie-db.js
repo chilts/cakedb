@@ -108,7 +108,8 @@ export default class PieDB {
       ns = ''
     }
     const ts = (new Date()).toISOString()
-    this.putStmt.run({ ns, k, v, ts })
+    const res = this.putStmt.run({ ns, k, v, ts })
+    return res.changes
   }
 
   putJson(ns, k, v) {
@@ -117,7 +118,7 @@ export default class PieDB {
       k = ns
       ns = ''
     }
-    this.put(ns, k, JSON.stringify(v))
+    return this.put(ns, k, JSON.stringify(v))
   }
 
   get(ns, k) {
@@ -148,6 +149,15 @@ export default class PieDB {
       k = ns
       ns = ''
     }
+
+    // firstly, check if this item exists, if not then insert it
+    const item = this.getJson(ns, k)
+    // console.log('item:', item)
+    if ( !item ) {
+      return this.putJson(ns, k, patch)
+    }
+
+    // item exists, so just patch it
     const ts = (new Date()).toISOString()
     const params = {
       ns,

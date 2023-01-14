@@ -25,7 +25,7 @@ test('20 - .putJson() and .patchJson()', t => {
     logins: 1,
   }
   const r1 = pdb.putJson('user', 'andy', user)
-  t.equal(r1, undefined, '.putJson() ok')
+  t.equal(r1, 1, '.putJson() ok')
 
   // update the email address
   const patchUser = {
@@ -60,7 +60,7 @@ test('20 - .patchJson() to an unknown key', t => {
     email: "andy@gmail.com",
   }
   const changes = pdb.patchJson('user', 'non-existant', patchUser)
-  t.equal(changes, 0, '.patchJson() ok')
+  t.equal(changes, 1, '.patchJson() ok')
 
   t.end()
 })

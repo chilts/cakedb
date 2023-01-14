@@ -20,7 +20,7 @@ test('01 - put and set (empty ns)', t => {
   t.plan(9)
 
   const r1 = pdb.put('', 't', 'one')
-  t.equal(r1, undefined, '.put() worked')
+  t.equal(r1, 1, '.put() worked')
 
   const r2 = pdb.get('', 't')
   t.equal(r2.ns, '', 'ns is the empty string')
@@ -41,7 +41,7 @@ test('01 - put and del (empty ns)', t => {
   t.plan(2)
 
   const r1 = pdb.put('', 't', 'two')
-  t.equal(r1, undefined)
+  t.equal(r1, 1)
 
   const r2 = pdb.del('', 't')
   t.deepEqual(r2, { changes: 1, lastInsertRowid: 1 })
@@ -53,7 +53,7 @@ test('01 - put and set (ns)', t => {
   t.plan(9)
 
   const r1 = pdb.put('t', 'one')
-  t.equal(r1, undefined)
+  t.equal(r1, 1)
 
   const r2 = pdb.get('t')
   t.equal(r2.ns, '', 'ns was okay')
@@ -74,7 +74,7 @@ test('01 - put and del (ns)', t => {
   t.plan(2)
 
   const r1 = pdb.put('t', 'two')
-  t.equal(r1, undefined)
+  t.equal(r1, 1)
 
   const r2 = pdb.del('t')
   t.deepEqual(r2, { changes: 1, lastInsertRowid: 1 })
