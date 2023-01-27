@@ -128,7 +128,7 @@ pdb.patchJson('user', 'andy', { "email": "andy@gmail.com" })
 const user = pdb.getJson('user', 'andy')
 console.log('user:', user)
 // user: {
-//    ns: "user',
+//    ns: 'user',
 //    k: 'andy',
 //    v: {
 //      title: "Andrew Chilton",
@@ -140,8 +140,38 @@ console.log('user:', user)
 // }
 ```
 
+### query(sql, { ... }) / .queryJson(sql, { ... })
+
+Allows you to use your own query against the `kv` table:
+
+```
+const user = {
+  title: "Andrew Chilton",
+  email: "andy@yahoo.com",
+}
+
+// put bob
+pdb.put('user', 'bob', 'bob@example.com')
+
+// new email address
+pdb.put('user', 'bob', 'bob@example.org')
+
+const regularUsers = pdb.query('SELECT v FROM kv WHERE updates > 1')
+console.log(regularUsers)
+// user: {
+//    ns: 'user',
+//    k: 'bob',
+//    v: 'bob@example.org',
+//    updates: 2,
+//    inserted: ...,
+//    updated: ...,
+// }
+```
+
 ## Changelog
 
+* v0.7.0 - 20230127 - Added .query() and .queryJson()
+* v0.6.0 - 20230114 - Make .put*() return the number of rows changed
 * v0.5.0 - 20221217 - Added the .modJson() method, which is also awesome (uses Sqlite's `json_set()`)
 * v0.4.0 - 20221216 - Added the .patchJson() method, which is awesome (uses Sqlite's `json_patch()`)
 * v0.3.2 - 20221216 - Fixed some typos in the ReadMe.md

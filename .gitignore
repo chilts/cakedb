@@ -2,6 +2,8 @@
 *.db-shm
 *.db-wal
 
+package-lock.json
+
 /non-git/
 /node_modules/
 *.log

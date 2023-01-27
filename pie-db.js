@@ -107,7 +107,7 @@ export default class PieDB {
       k = ns
       ns = ''
     }
-    const ts = (new Date()).toISOString()
+    const ts = (new Date()).toISOString() // in UTC
     const res = this.putStmt.run({ ns, k, v, ts })
     return res.changes
   }
@@ -219,5 +219,21 @@ export default class PieDB {
 
   iterate(ns) {
     return this.allStmt.iterate({ ns })
+  }
+
+  query(querySql, values) {
+    const stmt = this.db.prepare(querySql)
+    return stmt.all(values)
+  }
+
+  queryJson(querySql, values) {
+    const stmt = this.db.prepare(querySql)
+
+    const items = stmt.all(values)
+    for ( const item of items ) {
+      item.v = JSON.parse(item.v)
+    }
+    return items
+
   }
 }
